@@ -6,7 +6,7 @@ LABEL maintainer="Satoshi Ohki <roothybrid7@gmail.com>"
 USER node
 
 ENV HOME=/home/node
-ARG proj_dir=app
+ONBUILD ARG proj_dir=app
 ENV WORK_DIR="${HOME}/${proj_dir}"
 ONBUILD COPY --chown=node:node package.json ${WORK_DIR}/
 
