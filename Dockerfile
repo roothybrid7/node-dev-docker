@@ -1,4 +1,4 @@
-FROM node:9.3-alpine
+FROM node:9.4-alpine
 LABEL maintainer="Satoshi Ohki <roothybrid7@gmail.com>"
 
 # user: 1000, group node
@@ -6,9 +6,6 @@ LABEL maintainer="Satoshi Ohki <roothybrid7@gmail.com>"
 USER node
 
 ENV HOME=/home/node
-ONBUILD ARG proj_dir=app
-ENV WORK_DIR="${HOME}/${proj_dir}"
-ONBUILD COPY --chown=node:node package.json ${WORK_DIR}/
 
 WORKDIR ${HOME}
 
@@ -20,10 +17,5 @@ RUN touch .ashrc &&\
     grep ".npm_ashrc" .ashrc || echo 'source $HOME/.npm_ashrc' >>.ashrc
 
 RUN yarn global add vue-cli
-
-WORKDIR ${WORK_DIR}
-ONBUILD RUN yarn install && yarn cache clean --force
-
-COPY --chown=node:node . ${WORK_DIR}
 ENV NPM_PACKAGES="${HOME}/.npm-packages"
 ENV PATH="${NPM_PACKAGES}/bin:$PATH"
